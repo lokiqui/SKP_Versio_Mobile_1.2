@@ -1,0 +1,28 @@
+<div *ngIf="modoNormal">
+    <app-favbutton-usuarios
+        [docsUsuario]="this.docsUsuario"
+        (usuarioSeleccionado)="this.usuarioSeleccionadoHandler($event)"
+    ></app-favbutton-usuarios>
+
+    <app-pilotos-turnos
+        *ngIf="this.verTurnos"
+        [turnos]="this.turnos"
+        (reviewSeleccionada)="this.reviewSeleccionadaHandler($event)"
+        (historiaVueloSeleccionada)="this.verHistoriaVueloHandler($event)"
+    ></app-pilotos-turnos>
+
+    <app-historia-clinica
+        class="contenedor-menor"
+        *ngIf="verHistoriaVuelo"
+        [piloto]="pilotoSeleccionado"
+        (volver)="this.ocultarHandler()"
+    >
+    </app-historia-clinica>
+</div>
+<app-review
+    *ngIf="modoReview"
+    [turno]="this.turnoSeleccionado"
+    rol="instructor"
+    (volver)="this.volverHandler()"
+>
+</app-review>

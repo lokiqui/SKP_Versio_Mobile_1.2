@@ -1,0 +1,7 @@
+<div class="contenedor-menor mb-5 fondo-oscuro" *ngIf="this.renderizar">
+    <highcharts-chart
+        [Highcharts] = "highcharts" 
+        [options] = "chartOptions" 
+        style = "width: 50rem; height: 400px; display: block;">
+    </highcharts-chart>
+</div>

@@ -1,0 +1,160 @@
+<div
+    [ngClass]="{'fondo-oscuro contenedor-menor': this.miRol === 'administrador'}"
+><!-- Chanchada -->
+    <div *ngIf="modoNormal">
+        <h1
+            class="text-center"
+            *ngIf="miRol === 'piloto' || miRol === 'instructor'"
+        >Mis turnos</h1>
+        <h1
+            class="text-center"
+            *ngIf="miRol === 'administrador'"
+        >Turnos</h1>
+        <div>
+            <div *ngIf="miRol === 'piloto' || miRol === 'administrador'" class="mb-4">
+                <label class="mb-2">
+                    Buscar por Aeroclub o Instructor
+                </label>
+                <input
+                    [(ngModel)]="filtro"
+                    (ngModelChange)="pilotoFiltrar()"
+                    class="form-control w-50"
+                    appEjercicioC
+                >
+            </div>
+            <div *ngIf="miRol === 'instructor'" class="mb-4">
+                <label class="mb-2">
+                    Buscar por Aeroclub o Instructor
+                </label>
+                <input
+                    [(ngModel)]="filtro"
+                    (ngModelChange)="instructorFiltrar()"
+                    class="form-control w-25"
+                    appEjercicioC
+                >
+            </div>
+            <table>
+                <tr>
+                    <th>Horario</th>
+                    <th *ngIf="
+                        miRol === 'piloto' ||
+                        miRol === 'administrador'"
+                    >Instructor</th>
+                    <th *ngIf="
+                        miRol === 'instructor' ||
+                        miRol === 'administrador'"
+                    >Piloto</th>
+                    <th>Aeroclub</th>
+                    <th>Estado</th>
+                    <th>Motivo</th>
+                </tr>
+                <tr *ngFor="let turno of turnos; let i = index">
+                    <td>{{turno.fecha.toDate() | date:'MM/dd HH:mm'}}</td>
+                    <td *ngIf="miRol === 'piloto' || miRol === 'administrador'">
+                        {{turno.instructor | profesor}}
+                    </td>
+                    <td *ngIf="miRol === 'instructor' || miRol === 'administrador'">
+                        {{turno.piloto.nombre}}
+                        {{turno.piloto.apellido}}
+                    </td>
+                    <td>{{turno.instruccion}}</td>
+                    <td>{{turno.estado | uppercase}}</td>
+                    <td class="tdMotivo">{{turno.razon}}</td>
+                    <td *ngIf="turno.estado === 'reservado'">
+                        <button
+                            class="btn btn-danger"
+                            (click)="cancelarTurnoHandler(turno)"
+                        >
+                        Cancelar</button>
+                    </td>
+                    <td
+                    *ngIf="
+                        (miRol === 'piloto' && turno.reviewEsp) ||
+                        (miRol === 'instructor' && turno.reviewPac)"
+                    >
+                        <button
+                            class="btn btn-info"
+                            (click)="verReviewHandler(turno)"
+                        >
+                        Ver reseña</button>
+                    </td>
+                    <!-- <td *ngIf="turno.estado === 'realizado' && miRol === 'piloto'">
+                        <button
+                            class="btn btn-outline-light"                        
+                        >
+                        Completar encuesta</button>                    
+                    </td> -->
+                    <td *ngIf="
+                        turno.estado === 'realizado' &&
+                        miRol === 'piloto' && !turno.reviewPac"
+                    >
+                        <button
+                            class="btn btn-outline-info"
+                            (click)="calificarAtencionHandler(turno)"
+                        >
+                        Calificar atención</button>
+                    </td>
+                    <td *ngIf="turno.estado === 'reservado' && miRol === 'instructor'">
+                        <button
+                            class="btn btn-outline-danger"
+                            (click)="rechazarTurnoHandler(turno)"
+                        >
+                        Rechazar</button>
+                    </td>
+                    <td *ngIf="turno.estado === 'reservado' && miRol === 'instructor'">
+                        <button class="btn btn-success"
+                            (click)="aceptarTurnoHandler(turno)"
+                        >
+                        Aceptar</button>
+                    </td>
+                    <td *ngIf="turno.estado === 'aceptado' && miRol === 'instructor'">
+                        <button
+                            class="btn btn-light"
+                            (click)="finalizarTurnoHandler(turno)"
+                        >
+                        Finalizar</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <app-cancelar-turno
+        *ngIf="modoCancelar"
+        [turno]="turnoSeleccionado"
+        [rol]="miRol"
+        (volver)="volverHandler()"
+        (cancelar)="cancelarConfirmarHandler($event)"
+    >
+    </app-cancelar-turno>
+
+    <app-rechazar-turno
+        *ngIf="modoRechazar"
+        [turno]="turnoSeleccionado"
+        (volver)="volverHandler()"
+        (rechazar)="rechazarConfirmarHandler($event)"
+    >
+    </app-rechazar-turno>
+
+    <app-finalizar-turno
+        *ngIf="modoFinalizar"
+        [turno]="turnoSeleccionado"
+        (volver)="volverHandler()"
+        (finalizar)="finalizarConfirmarHandler($event)"
+    >
+    </app-finalizar-turno>
+
+    <app-review
+        *ngIf="modoReview"
+        [turno]="turnoSeleccionado"
+        [rol]="miRol"
+        (volver)="volverHandler()"
+    >
+    </app-review>
+
+    <app-calificar-atencion
+        *ngIf="modoCalificarAtencion"
+        (volver)="volverHandler()"
+        (calificar)="calificarConfirmarHandler($event)"
+    >
+    </app-calificar-atencion>
+</div>

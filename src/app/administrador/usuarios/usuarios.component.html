@@ -1,0 +1,187 @@
+<div
+    class="contenedor-menor mb-5 fondo-oscuro"
+>
+    <div class="container-fluid">
+        <table class="table text-white" style="text-align: center;" id="usuarios-excel">
+            <thead>
+                <tr>
+                    <th>Rol</th>
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Edad</th>
+                    <th>DNI</th>
+                    <th>Horas de Vuelo</th>
+                    <th>Aeroclub</th>
+                    <th>Habilitado</th>
+                    <th>Historia_de_Vuelo</th>
+                    <!-- <th>Opciones</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of docsUsuario">
+                    <td>{{item.usuario.rol}}</td>
+                    <td>{{item.usuario.email}}</td>
+                    <td>{{item.usuario.nombre}}</td>
+                    <td>{{item.usuario.apellido}}</td>
+                    <td>{{item.usuario.edad}}</td>
+                    <td>{{item.usuario.dni}}</td>
+                    <td *ngIf="item.usuario.detallePerfil">
+                        {{item.usuario.detallePerfil}}
+                    </td>
+                    <td *ngIf="!item.usuario.detallePerfil">
+                        n/a
+                    </td>
+                    <td *ngIf="item.usuario.aerodromos">
+                        <span *ngFor="let instruccion of item.usuario.aerodromos">
+                            {{instruccion}}
+                            <br>
+                        </span>
+                    </td>
+                    <td *ngIf="!item.usuario.aerodromos">
+                        n/a
+                    </td>
+                    <td *ngIf="item.usuario.aerodromos">
+                        <div class="form-check form-switch d-flex justify-content-center">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                [value]="item.id"
+                                (change)="onChangeHabilitado($event)"
+                                [checked]="item.usuario.habilitado"
+                            >
+                        </div>
+                    </td>
+                    <td *ngIf="!item.usuario.aerodromos">
+                        n/a
+                    </td>
+                    <td *ngIf="item.usuario.rol !== 'piloto'">
+                        n/a
+                    </td>
+                    <td *ngIf="item.usuario.rol === 'piloto'">
+                        <button
+                        *ngIf="!verHistoriaVuelo"
+                        class="btn btn-primary m-auto"
+                        (click)="verHistoriaVueloHandler(item.usuario)"
+                        >
+                        Ver</button>
+                    </td>
+                    <!-- <td>
+                        <button
+                            class="btn btn-danger m-auto"
+                            (click)="eliminarUsuarioHandler(item)"
+                        >
+                        Eliminar</button>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center my-5">
+            <button
+                class="btn btn-light"
+                (click)="exportarExcel('usuarios-excel', 'usuarios')"
+            >Descargar usuarios</button>
+        </div>
+        <app-favbutton-usuarios
+            [docsUsuario]="this.docsUsuario"
+            (usuarioSeleccionado)="this.usuarioSeleccionadoHandler($event)"
+        >
+        </app-favbutton-usuarios>
+        <div class="d-flex justify-content-center">
+            <button
+                *ngIf="!quieroAgregarUsuario"
+                class="btn btn-success"
+                (click)="agregarUsuario()"
+            >Agregar usuario</button>
+            <button
+                *ngIf="quieroAgregarUsuario"
+                class="btn btn-danger"
+                (click)="noAgregarUsuario()"
+            >Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div class="contenedor-menor mb-5 fondo-oscuro" *ngIf="this.verTurnos">
+    <div class="container-fluid">
+        <table id="turnos-excel">
+            <tr>
+                <th>Horario</th>
+                <th>Instructor</th>
+                <th>Piloto</th>
+                <th>Instruccion</th>
+                <th>Estado</th>
+                <th>Motivo</th>
+            </tr>
+            <tr *ngFor="let turno of turnos; let i = index">
+                <td>{{turno.fecha.toDate() | date:'MM/dd HH:mm'}}</td>
+                <td>
+                    {{turno.instructor | profesor}}
+                </td>
+                <td>
+                    {{turno.piloto.nombre}}
+                    {{turno.piloto.apellido}}
+                </td>
+                <td>{{turno.instruccion}}</td>
+                <td>{{turno.estado | uppercase}}</td>
+                <td class="tdMotivo">{{turno.razon}}</td>
+            </tr>
+        </table>
+        <div class="text-center my-5">
+            <button
+                class="btn btn-light"
+                (click)="exportarExcel('turnos-excel', 'turnos')"
+            >Descargar turnos</button>
+        </div>
+    </div>
+</div>
+
+
+<app-historia-clinica
+    class="contenedor-menor mb-5 fondo-oscuro"
+    *ngIf="verHistoriaVuelo"
+    [piloto]="pilotoSeleccionado"
+    (volver)="ocultarHandler()"
+>
+</app-historia-clinica>
+
+<div
+    class="d-flex justify-content-center align-items-center"
+>
+    <div
+        *ngIf="quieroAgregarUsuario"
+        class="text-white mb-5 fondo-oscuro"
+    >
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-3">
+            <div class="container-fluid navbar-nav">
+                <a
+                    class="nav-link m-auto"
+                    (click)="clickPilotoHandler()"
+                    [ngClass]="{'active': this.rolSeleccionado === 'piloto'}"
+                >Piloto</a>
+                <a
+                    class="nav-link m-auto"
+                    (click)="clickInstructorHandler()"
+                    [ngClass]="{'active': this.rolSeleccionado === 'instructor'}"
+                >Instructor</a>
+                <a
+                    class="nav-link m-auto"
+                    (click)="clickAdministradorHandler()"
+                    [ngClass]="{'active': this.rolSeleccionado === 'administrador'}"
+                >Administrador</a>
+            </div>
+        </nav>
+        <div style="width: 30rem; padding: 2rem 3rem" *ngIf="this.rolSeleccionado === 'piloto'">
+            <app-registro-piloto (formularioEnviado)="pilotoEnviadoHandler($event)" [error]="errorMsg">            
+            </app-registro-piloto>
+        </div>
+        <div style="width: 30rem; padding: 1rem 3rem" *ngIf="this.rolSeleccionado === 'instructor'">
+            <app-registro-instructor (formularioEnviado)="instructorEnviadoHandler($event)" [error]="errorMsg">            
+            </app-registro-instructor>
+        </div>
+        <div style="width: 30rem; padding: 2rem 3rem" *ngIf="this.rolSeleccionado === 'administrador'">
+            <app-registro-administrador (formularioEnviado)="administradorEnviadoHandler($event)" [error]="errorMsg">            
+            </app-registro-administrador>
+        </div>
+    </div>
+</div>

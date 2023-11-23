@@ -1,0 +1,135 @@
+<div    
+    *ngIf="this.usuarioActual"
+    [ngClass]="{'fondo-oscuro contenedor-menor': this.usuarioActual.rol === 'administrador'}"
+><!-- Chanchada -->
+    <div *ngIf="paso0" [@animado]>
+        <h2 class="text-center">Seleccione el piloto:</h2>
+        <div class="d-flex">
+            <div
+                *ngFor="let piloto of pilotos"
+                class="card m-5"
+                style="width: 18rem; cursor:pointer;"
+                (click)="onPilotoSeleccionadoHandler(piloto)"
+            >
+                <div class="card-body">
+                    <h5 class="card-title text-dark text-center">
+                        {{ piloto.data.nombre }} {{ piloto.data.apellido }}
+                    </h5>
+                </div>
+                <img
+                [src]="piloto.data.fotos[0]"
+                class="card-img-top imagen-card"
+                >
+            </div>
+        </div>
+    </div>
+    
+    <div *ngIf="paso1" class="d-flex flex-column" [@animado]>
+        <h2>Seleccione el Aeroclub:</h2>
+        <div
+            *ngFor="let instruccion of aerodromos"
+            class="btn btn-outline-secondary my-3 w-100"
+            (click)="onInstruccionSeleccionadaHandler(instruccion)"
+        >
+            <img
+                *ngIf="instruccion.imagen"
+                [src]="instruccion.imagen"
+                style="height: 5rem"                    
+            >
+            <img
+                *ngIf="!instruccion.imagen"
+                src="../../../assets/stethoscope.png"
+                style="height: 5rem"
+            >
+        </div>
+    </div>
+
+    <div *ngIf="paso2" [@animado]>
+        <h2 class="text-center">Seleccione Instructor:</h2>
+        <div class="d-flex">
+            <div
+                *ngFor="let instructor of instructores"
+                class="card m-5"
+                style="width: 18rem; cursor:pointer;"
+                (click)="onInstructorSeleccionadoHandler(instructor)"
+            >
+                <div class="card-body">
+                    <h5 class="card-title text-dark text-center">
+                        {{ instructor.data | profesor }}
+                    </h5>
+                </div>
+                <img
+                    [src]="instructor.data.foto"
+                    class="card-img-top"
+                >
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="paso3" [@animado]>
+        <table>
+            <tr class="text-center">
+                <th>
+                    Día
+                </th>
+                <th *ngFor="let item of franjaHoraria">
+                    {{item}}:00
+                </th>
+            </tr>
+            <tr *ngFor="let arrayDeFechas of arrayDeArraysDeFechas">
+                <td>                    
+                    {{ arrayDeFechas[0] | date:'EEEE' }}
+                    <!-- Mal. Si está tomada la primera, no se muestra. -->
+                    <!-- Además, falta traducir. -->
+                </td>
+                <td *ngFor="let fecha of arrayDeFechas">
+                    <button
+                        *ngIf="fecha"
+                        class="btn btn-outline-info text-light m-2"
+                        (click)="onFechaSeleccionadaHandler(fecha)"
+                    >
+                        {{ fecha | date:'MM/dd HH:mm' }}
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div *ngIf="paso4" [@animado]>
+        <h2>Verifique los datos de su reserva</h2>
+        <div class="my-5" appEjercicioB>
+            <h4>Detalles:</h4>
+            <p *ngIf="this.usuarioActual.rol === 'administrador'">
+                Piloto: {{pilotoElegido.nombre + " " + pilotoElegido.apellido}}
+            </p>
+            <p>Profesor: {{instructorElegido.apellido + ", " + instructorElegido.nombre}}</p>
+            <p>Fecha: {{fechaElegida | date:'short'}}</p>
+        </div>
+        <div class="d-flex justify-content-around">
+            <button
+                class="btn btn-danger"
+                (click)="onCancelarReservaHandler()"
+            >
+            Cancelar</button>
+            <button
+                class="btn btn-success"
+                (click)="onConfirmarReservaHandler()"
+            >
+            Confirmar</button>
+        </div>
+    </div>
+
+    <div *ngIf="paso5 && this.usuarioActual.rol === 'piloto'" [@animado]>
+        <h2>¡Su reserva ha sido confirmada!</h2>
+        <p>Profesor: {{instructorElegido.apellido + ", " + instructorElegido.nombre}}</p>
+        <p>Fecha: {{fechaElegida | date:'short'}}</p>
+        <button class="btn btn-secondary m-auto" (click)="regresar()">Finalizar</button>
+    </div>
+    <div *ngIf="paso5 && this.usuarioActual.rol === 'administrador'" [@animado]>
+        <h2>¡Su reserva ha sido confirmada!</h2>
+        <p>Piloto: {{pilotoElegido.nombre + " " + pilotoElegido.apellido}}</p>
+        <p>Profesor: {{instructorElegido.apellido + ", " + instructorElegido.nombre}}</p>
+        <p>Fecha: {{fechaElegida | date:'short'}}</p>
+        <button class="btn btn-secondary m-auto" (click)="regresar()">Finalizar</button>
+    </div>
+</div>

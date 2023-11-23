@@ -1,0 +1,24 @@
+<div class="contenedor-menor mb-5 fondo-oscuro">
+    <div class="table-responsive">
+      <table class="table table-primary" id="log-excel">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Día</th>
+            <th>Horario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ingreso of this.ingresos">
+            <td>{{ingreso.email}}</td>
+            <td>{{ingreso.fecha.toDate() | date:'dd/MM/YY'}}</td>
+            <td>{{ingreso.fecha.toDate() | date:'HH:mm:ss'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="text-center my-3">
+      <button class="btn btn-light" (click)="exportarExcel('log-excel', 'log-ingresos')">Descargar Log</button>
+    </div>
+  </div>
+  

@@ -1,0 +1,45 @@
+/* Agrega los estilos necesarios aquí */
+
+.contenedor-menor {
+    padding: 20px; /* Ajusta el relleno según sea necesario */
+    border-radius: 8px; /* Bordes redondeados */
+    margin-bottom: 20px; /* Espaciado inferior */
+    background-color: #343a40; /* Color de fondo oscuro */
+    color: #ffffff; /* Color de texto blanco */
+  }
+  
+  /* Estilos para el formulario */
+  form {
+    max-width: 300px; /* Ancho máximo del formulario */
+    margin: 0 auto; /* Centrar el formulario */
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  
+  .btn-outline-light {
+    color: #ffffff;
+    border-color: #ffffff;
+  }
+  
+  /* Estilos para el gráfico y el botón de volver */
+  .highcharts-container {
+    width: 100% !important; /* Importante para que el gráfico ocupe todo el ancho */
+    height: 300px;
+  }
+  
+  .btn-danger {
+    margin-top: 15px; /* Espaciado superior para el botón de volver */
+  }
+  
+  /* Estilos adicionales según sea necesario */
+  

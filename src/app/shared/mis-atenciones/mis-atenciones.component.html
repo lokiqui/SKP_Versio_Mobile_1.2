@@ -1,0 +1,13 @@
+<div class="mt-5">
+    <h4>Seleccione un instructor:</h4>
+    <app-favbutton-usuarios
+        [docsUsuario]="this.docsInstructor"
+        (usuarioSeleccionado)="this.usuarioSeleccionadoHandler($event)"
+    >
+    </app-favbutton-usuarios>
+    <div class="text-center mb-3">
+        <button class="btn btn-danger" (click)="this.volver.emit()">
+            Cancelar
+        </button>
+    </div>
+</div>

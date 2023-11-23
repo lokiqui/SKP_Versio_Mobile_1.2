@@ -1,0 +1,55 @@
+.contenedor-menor {
+    margin-bottom: 5rem;
+    background-color: #333; // Cambia el color de fondo según tus preferencias
+    padding: 1rem;
+  
+    .table-responsive {
+      overflow-x: auto; // Hace que la tabla sea desplazable horizontalmente en dispositivos pequeños
+    }
+  
+    table {
+      width: 100%;
+      max-width: 100%; // Asegura que la tabla no sobresalga del contenedor
+      background-color: #fff; // Cambia el color de fondo de la tabla según tus preferencias
+      color: #333; // Cambia el color del texto según tus preferencias
+      border-collapse: collapse;
+  
+      th, td {
+        padding: 0.75rem;
+        text-align: center;
+        border: 1px solid #ddd; // Añade bordes a las celdas para mejorar la legibilidad
+      }
+  
+      th {
+        background-color: #3498db; // Cambia el color de fondo de las celdas de encabezado según tus preferencias
+        color: #fff; // Cambia el color del texto en las celdas de encabezado según tus preferencias
+      }
+  
+      tbody tr:nth-child(even) {
+        background-color: #f2f2f2; // Cambia el color de fondo de las filas pares según tus preferencias
+      }
+    }
+  
+    .text-center {
+      text-align: center;
+    }
+  
+    .my-3 {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+  
+    .btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #2ecc71; // Cambia el color de fondo de los botones según tus preferencias
+      color: #fff; // Cambia el color del texto de los botones según tus preferencias
+      border: none;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #27ae60; // Cambia el color de fondo al pasar el ratón por encima según tus preferencias
+      }
+    }
+  }
+  

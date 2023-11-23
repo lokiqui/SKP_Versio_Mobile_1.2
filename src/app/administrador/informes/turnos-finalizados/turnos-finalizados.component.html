@@ -1,0 +1,31 @@
+<div class="contenedor-menor mb-5 fondo-oscuro" *ngIf="!renderizar">
+    <h2>Finalizados</h2>
+    <form #f="ngForm" (ngSubmit)="confirmar(f.value)" novalidate>
+        <label class="form-label">Fecha 1:</label>
+        <input
+            type="date"
+            class="form-control mb-3"
+            name="inicio"
+            required
+            ngModel
+        >
+        <label class="form-label">Fecha 2:</label>
+        <input
+            type="date"
+            class="form-control mb-5"
+            name="fin"
+            required
+            ngModel
+        >
+        <button class="btn btn-outline-light px-5" type="submit">Confirmar</button>            
+    </form>
+</div>
+
+<div class="contenedor-menor mb-5 fondo-oscuro" *ngIf="renderizar">
+    <highcharts-chart        
+        [Highcharts]="highcharts" 
+        [options]="chartOptions" 
+        style="width: 100%; height: 300px; display: block;">
+    </highcharts-chart>
+    <button class="btn btn-danger mt-3" routerLink="../">Volver</button>
+</div>

@@ -1,0 +1,42 @@
+<div id="bienvenida-contenedor" class="d-flex justify-content-center align-items-center" style="height: 60%;">
+    <div class="text-white m-3 p-3 fondo-oscuro">
+        <div *ngIf="!elegi" class="d-flex flex-column align-items-center">
+            <h1 class="m-3">Registro</h1>
+            <img
+                src="../../assets/examination.png"
+                (click)="clickPilotoHandler()"
+                class="img-fluid"
+                style="width: 40%; height: 40%; margin: 2rem; cursor: pointer;"
+            >
+            <img
+                src="../../assets/instructor.png"
+                (click)="clickInstructorHandler()"
+                class="img-fluid"
+                style="width: 40%; height: 40%; margin: 2rem; cursor: pointer;"
+            >
+        </div>
+        <div *ngIf="elegi" class="text-center">
+            <div style="width: 80%; max-width: 20rem; padding: 2rem;" *ngIf="esPiloto">
+                <app-registro-piloto
+                    (formularioEnviado)="pilotoEnviadoHandler($event)"
+                    [error]="errorMsg"
+                    [isLoading]="isLoading"
+                >
+                </app-registro-piloto>
+            </div>
+            <div style="width: 80%; max-width: 20rem; padding: 1rem;" *ngIf="!esPiloto">
+                <app-registro-instructor
+                    (formularioEnviado)="instructorEnviadoHandler($event)"
+                    [error]="errorMsg"
+                    [isLoading]="isLoading"
+                >                
+                </app-registro-instructor>
+            </div>
+            <button class="btn btn-danger d-block mx-auto my-3" style="margin-top: 10px;" (click)="clickCancelarHandler()">Cancelar</button>
+        </div>
+        <button *ngIf="!elegi" class="btn btn-danger d-block mx-auto my-3" (click)="clickVolverHandler()">Volver</button>
+    </div>
+</div>
+
+
+

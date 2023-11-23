@@ -1,0 +1,58 @@
+<div id="bienvenida-contenedor" class="d-flex justify-content-center align-items-center">
+    <div class="text-white text-center p-3 fondo-oscuro" style="max-width: 300px; width: 80%;">
+        <form #f="ngForm" (ngSubmit)="signIn(f.value)" novalidate>
+            <h2 class="fw-bold mb-4 text-uppercase">Login</h2>
+            <div class="form-outline form-white mb-3">                  
+                <input
+                    name="email"
+                    [ngModel]="atrEmail"
+                    required
+                    type="email"
+                    class="form-control form-control-lg"
+                    placeholder="Email"
+                >
+            </div>
+
+            <div class="form-outline form-white mb-3">                  
+                <input
+                    name="password"
+                    [ngModel]="atrPassword"
+                    required
+                    type="password"
+                    class="form-control form-control-lg"
+                    placeholder="Contraseña"
+                >
+            </div>
+            <button class="btn btn-outline-light btn-lg mt-3" type="submit">Ingresar</button>            
+        </form>
+
+        <div class="d-flex flex-column align-items-center mt-3" style="height: 5rem;">
+            <div>
+                <span *ngIf="error" class="help-block text-danger">{{error}}</span>
+            </div>
+            <div *ngIf="authIsLoading" class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div>
+            <p class="mb-0">¿No tienes una cuenta?</p>
+            <a href="registro" class="text-white-50">Regístrate</a>
+        </div>
+
+        <button routerLink="" class="btn btn-danger d-block mx-auto mt-3">Volver</button>
+    </div>
+</div>
+
+<div class="fixed-bottom p-2" style="right: 10px; background: rgba(10, 10, 10, .5); border-radius: .6rem; color: white;">
+    <div *ngIf="this.usersAreLoading" class="text-center">Cargando...</div>
+
+    <ng-container *ngIf="!this.usersAreLoading">
+        <div *ngFor="let item of usuarios" class="p-0 btn" style="display: flex; align-items: center; justify-content: flex-end; color: white; margin-top: 1rem;" (click)="rellenar(item.email)">
+            <span>{{item.rol.charAt(0).toUpperCase() + item.rol.slice(1)}}</span>
+
+            <img *ngIf="item.foto" [src]="item.foto" class="btn rounded-circle p-0 m-2" style="width: 60px; height: 60px;">
+            <img *ngIf="item.fotos" [src]="item.fotos[0]" class="btn rounded-circle p-0 m-2" style="width: 60px; height: 60px;">
+        </div>
+    </ng-container>
+</div>

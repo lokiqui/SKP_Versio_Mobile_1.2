@@ -1,0 +1,95 @@
+<div *ngIf="usuario">
+    <div *ngIf="usuario.rol === 'piloto'" class="card mb-3 text-dark" style="max-width: 540px;">        
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img [src]="usuario.fotos[0]" class="img-fluid rounded-start">
+                <img [src]="usuario.fotos[1]" class="img-fluid rounded-start">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title mb-4">{{usuario.nombre + ' ' + usuario.apellido}}</h3>
+                    <p class="card-text">Edad: {{usuario.edad}}</p>
+                    <p class="card-text">DNI: {{usuario.dni}}</p>
+                    <p class="card-text">Horas de Vuelo: {{usuario.detallePerfil}}</p>
+                    <button
+                        *ngIf="!verHistoriaVuelo"
+                        class="btn btn-primary mb-4"
+                        (click)="verMiHistoriaVueloHandler()"
+                    >Ver mi historial de vuelos</button>
+                    <button
+                        *ngIf="!verMisAtenciones"
+                        class="btn btn-primary"
+                        (click)="verMisAtencionesHandler()"
+                    >Ver mis vuelos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-mis-atenciones
+        *ngIf="verMisAtenciones"
+        (volver)="ocultarMisAtencionesHandler()"
+    >
+    </app-mis-atenciones>
+
+    <app-historia-clinica
+        *ngIf="verHistoriaVuelo"
+        [piloto]="usuario"
+        (volver)="ocultarMiHistoriaVueloHandler()"
+    >
+    </app-historia-clinica>
+
+    <div *ngIf="usuario.rol === 'instructor'" class="card mb-3 text-dark" style="max-width: 1000px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img [src]="usuario.foto" class="img-fluid rounded-start">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">{{usuario | profesor}}</h3>
+                    <p class="card-text">Edad: {{usuario.edad}}</p>
+                    <p class="card-text">DNI: {{usuario.dni}}</p>
+                    <span class="card-text">Aeroclubes Asociados:</span>
+                    <ul>
+                        <li *ngFor="let instruccion of usuario.aerodromos" class="card-text">
+                            {{instruccion}}
+                        </li>
+                    </ul>
+                    <button
+                        *ngIf="!this.verMisHorarios"
+                        class="btn btn-primary"
+                        (click)="verMisHorariosHandler()"
+                    >Ver mis horarios</button>        
+                    <button
+                        *ngIf="this.verMisHorarios"
+                        class="btn btn-danger"
+                        (click)="ocultarMisHorariosHandler()"
+                    >Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-mis-horarios
+        *ngIf="verMisHorarios"
+        (volver)="ocultarMisHorariosHandler()"
+    >
+    </app-mis-horarios>
+
+    <div *ngIf="usuario.rol === 'administrador'">        
+        <div class="card mb-3 text-dark" style="max-width: 1000px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img [src]="usuario.foto" class="img-fluid rounded-start">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">{{usuario.nombre + ' ' + usuario.apellido}}</h3>
+                        <p class="card-text">Edad: {{usuario.edad}}</p>
+                        <p class="card-text">DNI: {{usuario.dni}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

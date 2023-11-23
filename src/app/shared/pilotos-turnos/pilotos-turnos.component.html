@@ -1,0 +1,51 @@
+<div *ngIf="modoNormal">
+    <h1>Turnos</h1>
+    <div>
+        <div class="mb-4">
+            <label class="mb-2">
+                Buscar por instruccion
+            </label>
+            <input
+                [(ngModel)]="filtro"
+                (ngModelChange)="filtrar()"
+                class="form-control w-25"
+            >
+        </div>
+        <table>
+            <tr>
+                <th>Horario</th>
+                <th>Piloto</th>
+                <th>Instruccion</th>
+                <th>Estado</th>
+                <th>Motivo</th>
+            </tr>
+            <tr *ngFor="let turno of turnos; let i = index">
+                <td>{{turno.fecha.toDate() | date:'MM/dd HH:mm'}}</td>
+                <td>
+                    {{turno.piloto.nombre}}
+                    {{turno.piloto.apellido}}
+                </td>
+                <td>{{turno.instruccion}}</td>
+                <td>{{turno.estado | uppercase}}</td>
+                <td class="tdMotivo">{{turno.razon}}</td>
+                <td
+                *ngIf="turno.reviewPac"
+                >
+                    <button
+                        class="btn btn-info"
+                        (click)="verReview(turno)"
+                    >
+                    Ver reseña</button>
+                </td>
+                <td>
+                    <button
+                        class="btn btn-primary"
+                        (click)="historiaVueloSeleccionada.emit(turno)"
+                    >
+                    Ver historial de vuelo </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+

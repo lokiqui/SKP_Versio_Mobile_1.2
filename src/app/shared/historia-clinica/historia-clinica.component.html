@@ -1,0 +1,57 @@
+<div
+    class="p-4"
+    style="background-color: white; color: black; border-radius: .6rem;"
+>
+    <h2 class="mb-5 text-center">Historial de vuelo</h2>
+    <div class="d-flex justify-content-between align-items-end mb-5">
+        <div class="d-flex flex-column justify-content-between">
+            <div class="d-flex flex-column justify-content-between mb-5">
+                <span>
+                    <span>Piloto:</span> {{piloto.nombre + ' ' + piloto.apellido}}
+                </span>
+                <span>
+                    <span>Edad:</span> {{piloto.edad}}
+                </span>
+                <span>
+                    <span>DNI:</span> {{piloto.dni}}
+                </span>
+                <span>
+                    <span>Horas de Vuelo:</span> {{piloto.detallePerfil}}
+                </span>
+            </div>
+            <div *ngIf="hc" class="d-flex flex-column justify-content-between">
+                <!-- <span>
+                    <span>Horas:</span> {{hc.horas + 'cm'}}
+                </span>
+                <span>
+                    <span>Tipo:</span> {{hc.tipo + 'kg'}}
+                </span>
+                <span>
+                    <span>Maniobras:</span> {{hc.maniobras + 'ºC'}}
+                </span>
+                <span>
+                    <span>Clima:</span> {{hc.clima + 'mmHg'}}
+                </span> -->
+
+                <span *ngFor="let item of hc | keyvalue">
+                    <span>{{item.key}}:</span> {{item.value}}
+                </span>
+            </div>
+        </div>
+        <img src="../../../assets/medical-report.png" id="hc-logo">
+    </div>
+    <div class="text-center mb-4">
+        <button
+            class="btn btn-primary"
+            (click)="createPDF()"
+        >
+        Ver en PDF</button>
+    </div>
+    <div class="text-center">
+        <button
+            class="btn btn-danger"
+            (click)="volver.emit()"
+        >
+        Volver</button>
+    </div>
+</div>
